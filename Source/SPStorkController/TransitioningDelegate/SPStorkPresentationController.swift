@@ -284,14 +284,11 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
             self.snapshotViewContainer.transform = initialTransform
         
             let finalCornerRadius = presentingViewController.isPresentedAsStork ? self.cornerRadius : 0
+
+            self.addCornerRadiusAnimation(for: self.snapshotView, cornerRadius: finalCornerRadius, duration: 0.6)
         }
         
         let finalTransform: CGAffineTransform = .identity
-        
-        if self.simpleBackground == false
-        {
-            self.addCornerRadiusAnimation(for: self.snapshotView, cornerRadius: finalCornerRadius, duration: 0.6)
-        }
         
         var rootSnapshotView: UIView?
         var rootSnapshotRoundedView: UIView?
