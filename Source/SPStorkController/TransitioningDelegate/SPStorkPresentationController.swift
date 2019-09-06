@@ -522,12 +522,12 @@ extension SPStorkPresentationController {
             
             if self.simpleBackground == false
             {
-                let scaleFactor = 1 + (translationForModal / 5000)
+                let scaleFactor: CGFloat = 1 + (translationForModal / 5000)
                 self.snapshotView?.transform = CGAffineTransform.init(scaleX: scaleFactor, y: scaleFactor)
             }
             else
             {
-                let scaleFactor = 1
+                let scaleFactor: CGFloat = 1
                 self.snapshotView?.transform = CGAffineTransform.init(scaleX: scaleFactor, y: scaleFactor)
             }
             let gradeFactor = 1 + (translationForModal / 7000)
