@@ -27,6 +27,7 @@ public final class SPStorkTransitioningDelegate: NSObject, UIViewControllerTrans
     public var tapAroundToDismissEnabled: Bool = true
     public var showCloseButton: Bool = false
     public var showIndicator: Bool = true
+    public var simpleBackground: Bool = false
     public var indicatorColor: UIColor = UIColor.init(red: 202/255, green: 201/255, blue: 207/255, alpha: 1)
     public var hideIndicatorWhenScroll: Bool = false
     public var indicatorMode: SPStorkArrowMode = .auto
@@ -43,6 +44,7 @@ public final class SPStorkTransitioningDelegate: NSObject, UIViewControllerTrans
         controller.tapAroundToDismissEnabled = self.tapAroundToDismissEnabled
         controller.showCloseButton = self.showCloseButton
         controller.showIndicator = self.showIndicator
+        controller.simpleBackground = self.simpleBackground
         controller.indicatorColor = self.indicatorColor
         controller.hideIndicatorWhenScroll = self.hideIndicatorWhenScroll
         controller.indicatorMode = self.indicatorMode
