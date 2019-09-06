@@ -164,15 +164,12 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
             self.backgroundView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
         ])
         
-        if self.simpleBackground == false
-        {
-            let transformForSnapshotView = CGAffineTransform.identity
-                .translatedBy(x: 0, y: -snapshotViewContainer.frame.origin.y)
-                .translatedBy(x: 0, y: self.topSpace)
-                .translatedBy(x: 0, y: -snapshotViewContainer.frame.height / 2)
-                .scaledBy(x: scaleForPresentingView, y: scaleForPresentingView)
-                .translatedBy(x: 0, y: snapshotViewContainer.frame.height / 2)
-        }
+        let transformForSnapshotView = CGAffineTransform.identity
+            .translatedBy(x: 0, y: -snapshotViewContainer.frame.origin.y)
+            .translatedBy(x: 0, y: self.topSpace)
+            .translatedBy(x: 0, y: -snapshotViewContainer.frame.height / 2)
+            .scaledBy(x: scaleForPresentingView, y: scaleForPresentingView)
+            .translatedBy(x: 0, y: snapshotViewContainer.frame.height / 2)        
         
         if self.simpleBackground == false
         {
