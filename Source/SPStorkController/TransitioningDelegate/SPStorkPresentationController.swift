@@ -520,8 +520,16 @@ extension SPStorkPresentationController {
             
             self.presentedView?.transform = CGAffineTransform(translationX: 0, y: translationForModal)
             
-            let scaleFactor = 1 + (translationForModal / 5000)
-            self.snapshotView?.transform = CGAffineTransform.init(scaleX: scaleFactor, y: scaleFactor)
+            if self.simpleBackground == false
+            {
+                let scaleFactor = 1 + (translationForModal / 5000)
+                self.snapshotView?.transform = CGAffineTransform.init(scaleX: scaleFactor, y: scaleFactor)
+            }
+            else
+            {
+                let scaleFactor = 1
+                self.snapshotView?.transform = CGAffineTransform.init(scaleX: scaleFactor, y: scaleFactor)
+            }
             let gradeFactor = 1 + (translationForModal / 7000)
             self.gradeView.alpha = self.alpha - ((gradeFactor - 1) * 15)
         } else {
