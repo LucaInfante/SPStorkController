@@ -596,7 +596,10 @@ extension SPStorkPresentationController {
         self.snapshotViewContainer.addSubview(currentSnapshotView)
         self.constraints(view: currentSnapshotView, to: self.snapshotViewContainer)
         self.snapshotView = currentSnapshotView
-        self.snapshotView?.layer.cornerRadius = self.cornerRadius
+        if self.simpleBackground == false
+        {
+            self.snapshotView?.layer.cornerRadius = self.cornerRadius
+        }
         self.snapshotView?.layer.masksToBounds = true
         if #available(iOS 11.0, *) {
             snapshotView?.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
