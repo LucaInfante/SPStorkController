@@ -27,6 +27,7 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
     var tapAroundToDismissEnabled: Bool = true
     var showCloseButton: Bool = false
     var showIndicator: Bool = true
+    var simpleBackground: Bool = false
     var indicatorColor: UIColor = UIColor.init(red: 202/255, green: 201/255, blue: 207/255, alpha: 1)
     var hideIndicatorWhenScroll: Bool = false
     var indicatorMode: SPStorkArrowMode = .auto
@@ -163,14 +164,20 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
             self.backgroundView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
         ])
         
-        let transformForSnapshotView = CGAffineTransform.identity
-            .translatedBy(x: 0, y: -snapshotViewContainer.frame.origin.y)
-            .translatedBy(x: 0, y: self.topSpace)
-            .translatedBy(x: 0, y: -snapshotViewContainer.frame.height / 2)
-            .scaledBy(x: scaleForPresentingView, y: scaleForPresentingView)
-            .translatedBy(x: 0, y: snapshotViewContainer.frame.height / 2)
+        if self.simpleBackground == false
+        {
+            let transformForSnapshotView = CGAffineTransform.identity
+                .translatedBy(x: 0, y: -snapshotViewContainer.frame.origin.y)
+                .translatedBy(x: 0, y: self.topSpace)
+                .translatedBy(x: 0, y: -snapshotViewContainer.frame.height / 2)
+                .scaledBy(x: scaleForPresentingView, y: scaleForPresentingView)
+                .translatedBy(x: 0, y: snapshotViewContainer.frame.height / 2)
+        }
         
-        self.addCornerRadiusAnimation(for: self.snapshotView, cornerRadius: self.cornerRadius, duration: 0.6)
+        if self.simpleBackground == false
+        {
+            self.addCornerRadiusAnimation(for: self.snapshotView, cornerRadius: self.cornerRadius, duration: 0.6)
+        }
         self.snapshotView?.layer.masksToBounds = true
         if #available(iOS 11.0, *) {
             presentedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -186,7 +193,10 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
             
             containerView.insertSubview(snapshotView, aboveSubview: self.backgroundView)
             snapshotView.frame = initialFrame
-            snapshotView.transform = transformForSnapshotView
+            if self.simpleBackground == false
+            {
+                snapshotView.transform = transformForSnapshotView
+            }
             snapshotView.alpha = 1 - self.alpha
             snapshotView.layer.cornerRadius = self.cornerRadius
             snapshotView.contentMode = .top
@@ -198,14 +208,20 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
             snapshotRoundedView.layer.masksToBounds = true
             containerView.insertSubview(snapshotRoundedView, aboveSubview: snapshotView)
             snapshotRoundedView.frame = initialFrame
-            snapshotRoundedView.transform = transformForSnapshotView
+            if self.simpleBackground == false
+            {
+                snapshotRoundedView.transform = transformForSnapshotView
+            ]
             rootSnapshotRoundedView = snapshotRoundedView
         }
         
         presentedViewController.transitionCoordinator?.animate(
             alongsideTransition: { [weak self] context in
                 guard let `self` = self else { return }
-                self.snapshotView?.transform = transformForSnapshotView
+                if self.simpleBackground == false
+                {
+                    self.snapshotView?.transform = transformForSnapshotView
+                }
                 self.gradeView.alpha = self.alpha
             }, completion: { _ in
                 self.snapshotView?.transform = .identity
@@ -220,12 +236,18 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
     
     override func presentationTransitionDidEnd(_ completed: Bool) {
         super.presentationTransitionDidEnd(completed)
-        guard let containerView = containerView else { return }
+        if self.simpleBackground == false
+        {
+            guard let containerView = containerView else { return }
+        }
         self.updateSnapshot()
-        self.presentedViewController.view.frame = self.frameOfPresentedViewInContainerView
-        self.snapshotViewContainer.transform = .identity
-        self.snapshotViewContainer.translatesAutoresizingMaskIntoConstraints = false
-        self.snapshotViewContainer.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        if self.simpleBackground == false
+        {
+            self.presentedViewController.view.frame = self.frameOfPresentedViewInContainerView
+            self.snapshotViewContainer.transform = .identity
+            self.snapshotViewContainer.translatesAutoresizingMaskIntoConstraints = false
+            self.snapshotViewContainer.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        }
         self.updateSnapshotAspectRatio()
         
         if self.tapAroundToDismissEnabled {
@@ -250,24 +272,31 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
         
         let initialFrame: CGRect = presentingViewController.isPresentedAsStork ? presentingViewController.view.frame : containerView.bounds
         
-        let initialTransform = CGAffineTransform.identity
-            .translatedBy(x: 0, y: -initialFrame.origin.y)
-            .translatedBy(x: 0, y: self.topSpace)
-            .translatedBy(x: 0, y: -initialFrame.height / 2)
-            .scaledBy(x: scaleForPresentingView, y: scaleForPresentingView)
-            .translatedBy(x: 0, y: initialFrame.height / 2)
+        if self.simpleBackground == false
+        {
+            let initialTransform = CGAffineTransform.identity
+                .translatedBy(x: 0, y: -initialFrame.origin.y)
+                .translatedBy(x: 0, y: self.topSpace)
+                .translatedBy(x: 0, y: -initialFrame.height / 2)
+                .scaledBy(x: scaleForPresentingView, y: scaleForPresentingView)
+                .translatedBy(x: 0, y: initialFrame.height / 2)
+        }
         
         self.snapshotViewTopConstraint?.isActive = false
         self.snapshotViewWidthConstraint?.isActive = false
         self.snapshotViewAspectRatioConstraint?.isActive = false
         self.snapshotViewContainer.translatesAutoresizingMaskIntoConstraints = true
         self.snapshotViewContainer.frame = initialFrame
-        self.snapshotViewContainer.transform = initialTransform
         
-        let finalCornerRadius = presentingViewController.isPresentedAsStork ? self.cornerRadius : 0
-        let finalTransform: CGAffineTransform = .identity
+        if self.simpleBackground == false
+        {
+            self.snapshotViewContainer.transform = initialTransform
         
-        self.addCornerRadiusAnimation(for: self.snapshotView, cornerRadius: finalCornerRadius, duration: 0.6)
+            let finalCornerRadius = presentingViewController.isPresentedAsStork ? self.cornerRadius : 0
+            let finalTransform: CGAffineTransform = .identity
+        
+            self.addCornerRadiusAnimation(for: self.snapshotView, cornerRadius: finalCornerRadius, duration: 0.6)
+        }
         
         var rootSnapshotView: UIView?
         var rootSnapshotRoundedView: UIView?
@@ -277,27 +306,42 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
             
             containerView.insertSubview(snapshotView, aboveSubview: backgroundView)
             snapshotView.frame = initialFrame
-            snapshotView.transform = initialTransform
+            if self.simpleBackground == false
+            {
+                snapshotView.transform = initialTransform
+            }
             snapshotView.contentMode = .top
             rootSnapshotView = snapshotView
-            snapshotView.layer.cornerRadius = self.cornerRadius
-            snapshotView.layer.masksToBounds = true
+            if self.simpleBackground == false
+            {
+                snapshotView.layer.cornerRadius = self.cornerRadius
+                snapshotView.layer.masksToBounds = true
+            }
             
             let snapshotRoundedView = UIView()
-            snapshotRoundedView.layer.cornerRadius = self.cornerRadius
-            snapshotRoundedView.layer.masksToBounds = true
+            if self.simpleBackground == false
+            {
+                snapshotRoundedView.layer.cornerRadius = self.cornerRadius
+                snapshotRoundedView.layer.masksToBounds = true
+            }
             snapshotRoundedView.backgroundColor = UIColor.black.withAlphaComponent(self.alpha)
             containerView.insertSubview(snapshotRoundedView, aboveSubview: snapshotView)
             snapshotRoundedView.frame = initialFrame
-            snapshotRoundedView.transform = initialTransform
+            if self.simpleBackground == false
+            {
+                snapshotRoundedView.transform = initialTransform
+            }
             rootSnapshotRoundedView = snapshotRoundedView
         }
         
         presentedViewController.transitionCoordinator?.animate(
             alongsideTransition: { [weak self] context in
                 guard let `self` = self else { return }
-                self.snapshotView?.transform = .identity
-                self.snapshotViewContainer.transform = finalTransform
+                if self.simpleBackground == false
+                {
+                    self.snapshotView?.transform = .identity
+                    self.snapshotViewContainer.transform = finalTransform
+                }
                 self.gradeView.alpha = 0
                 if self.hapticMoments.contains(.willDismiss) {
                     self.feedbackGenerator.impactOccurred()
