@@ -233,10 +233,7 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
     
     override func presentationTransitionDidEnd(_ completed: Bool) {
         super.presentationTransitionDidEnd(completed)
-        if self.simpleBackground == false
-        {
-            guard let containerView = containerView else { return }
-        }
+        guard let containerView = containerView else { return }
         self.updateSnapshot()
         if self.simpleBackground == false
         {
@@ -269,15 +266,12 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
         
         let initialFrame: CGRect = presentingViewController.isPresentedAsStork ? presentingViewController.view.frame : containerView.bounds
         
-        if self.simpleBackground == false
-        {
-            let initialTransform = CGAffineTransform.identity
-                .translatedBy(x: 0, y: -initialFrame.origin.y)
-                .translatedBy(x: 0, y: self.topSpace)
-                .translatedBy(x: 0, y: -initialFrame.height / 2)
-                .scaledBy(x: scaleForPresentingView, y: scaleForPresentingView)
-                .translatedBy(x: 0, y: initialFrame.height / 2)
-        }
+        let initialTransform = CGAffineTransform.identity
+            .translatedBy(x: 0, y: -initialFrame.origin.y)
+            .translatedBy(x: 0, y: self.topSpace)
+            .translatedBy(x: 0, y: -initialFrame.height / 2)
+            .scaledBy(x: scaleForPresentingView, y: scaleForPresentingView)
+            .translatedBy(x: 0, y: initialFrame.height / 2)
         
         self.snapshotViewTopConstraint?.isActive = false
         self.snapshotViewWidthConstraint?.isActive = false
