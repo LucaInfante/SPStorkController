@@ -179,11 +179,8 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
         if #available(iOS 11.0, *) {
             presentedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
-        if self.simpleBackground == false
-        {
-            presentedView.layer.cornerRadius = self.cornerRadius
-            presentedView.layer.masksToBounds = true
-        }
+        presentedView.layer.cornerRadius = self.cornerRadius
+        presentedView.layer.masksToBounds = true
         
         var rootSnapshotView: UIView?
         var rootSnapshotRoundedView: UIView?
@@ -198,13 +195,19 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
                 snapshotView.transform = transformForSnapshotView
             }
             snapshotView.alpha = 1 - self.alpha
-            snapshotView.layer.cornerRadius = self.cornerRadius
+            if self.simpleBackground == false
+            {
+                snapshotView.layer.cornerRadius = self.cornerRadius
+            }
             snapshotView.contentMode = .top
             snapshotView.layer.masksToBounds = true
             rootSnapshotView = snapshotView
             
             let snapshotRoundedView = UIView()
-            snapshotRoundedView.layer.cornerRadius = self.cornerRadius
+            if self.simpleBackground == false
+            {
+                snapshotRoundedView.layer.cornerRadius = self.cornerRadius
+            }
             snapshotRoundedView.layer.masksToBounds = true
             containerView.insertSubview(snapshotRoundedView, aboveSubview: snapshotView)
             snapshotRoundedView.frame = initialFrame
