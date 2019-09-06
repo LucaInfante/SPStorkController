@@ -211,7 +211,7 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
             if self.simpleBackground == false
             {
                 snapshotRoundedView.transform = transformForSnapshotView
-            ]
+            }
             rootSnapshotRoundedView = snapshotRoundedView
         }
         
