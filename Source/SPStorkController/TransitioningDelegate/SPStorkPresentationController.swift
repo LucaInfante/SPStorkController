@@ -179,8 +179,11 @@ class SPStorkPresentationController: UIPresentationController, UIGestureRecogniz
         if #available(iOS 11.0, *) {
             presentedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
-        presentedView.layer.cornerRadius = self.cornerRadius
-        presentedView.layer.masksToBounds = true
+        if self.simpleBackground == false
+        {
+            presentedView.layer.cornerRadius = self.cornerRadius
+            presentedView.layer.masksToBounds = true
+        }
         
         var rootSnapshotView: UIView?
         var rootSnapshotRoundedView: UIView?
