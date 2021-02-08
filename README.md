@@ -1,4 +1,4 @@
-# Forked for personal interventions and not "worthy" of pull request or original git was abandoned.
+# Forked for minor changes to background
 
 # SPStorkController
 
