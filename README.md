@@ -1,3 +1,5 @@
+# Forked for personal interventions and not "worthy" of pull request or original git was abandoned.
+
 # SPStorkController
 
 <a href="https://itunes.apple.com/app/id1446635818" target="_blank"><img align="left" src="https://github.com/ivanvorobei/SPStorkController/blob/master/Resources/Preview.gif" width="400"/></a>
